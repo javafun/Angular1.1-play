@@ -1,0 +1,37 @@
+{
+  "name": "angularplay",
+  "version": "1.0.0",
+  "description": "Angular NodeJs MongoDb ",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "multer": "^1.0.3"
+  },
+  "devDependencies": {
+    "body-parser": "^1.13.3",
+    "ejs": "^2.3.3",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.5",
+    "mongodb": "^1.4.39",
+    "mongoskin": "^1.4.13",
+    "morgan": "^1.6.1",
+    "multer": "^1.0.3",
+    "serve-favicon": "^2.3.0",
+    "serve-static": "^1.10.0",
+    "underscore": "^1.8.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Angular",
+    "NodeJs",
+    "MongoDb"
+  ],
+  "author": "Vincent",
+  "license": "ISC"
+}
