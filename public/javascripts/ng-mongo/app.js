@@ -1,38 +1,60 @@
 var ngMongo = angular.module("ngMongo", ["ngResource"]);
 
-ngMongo.factory("Mongo", function ($resource) {
-    return {
-        database: $resource("/mongo-api/dbs")
-    }
+ngMongo.config(function ($routeProvider) {
+    $routeProvider
+        .when('/', {
+            templateUrl: "list-template.html",
+            controller: "ListCtrl"
+        })
+        .when('/:database',{
+            templateUrl:"list-template.html",
+            controller: "ListCtrl"
+        })
+
 });
 
+
+ngMongo.factory("Mongo", function ($resource) {
+    return {
+        database: $resource("/mongo-api/dbs"),
+        collection: $resource("/mongo-api/:database")
+    }
+});
 
 ngMongo.directive("deleteButton", Gova.Bootstrap.DeleteButton);
 
 ngMongo.directive("addButton", Gova.Bootstrap.AddButton);
 
-ngMongo.controller("ListCtrl", function ($scope, Mongo) {
-    // http get returns a promise ...
-    $scope.items = Mongo.database.query({}, isArray = true);
+ngMongo.controller("ListCtrl", function ($scope,$routeParams ,Mongo) {
 
-    $scope.addDb = function () {
-        var dbName = $scope.newDbName;
+    var context = "database";
 
-        if (dbName) {
-            var newDb = new Mongo.database({name: dbName});
-            newDb.$save();
-            $scope.items.push(newDb);
+    if($routeParams.database) context = "collection";
+
+    $scope.items = Mongo[context].query($routeParams);
+
+
+    $scope.addItem = function () {
+        var newItemName = $scope.newItemName;
+
+        if (newItemName) {
+            var newItem = new Mongo[context]({name: newItemName});
+            newItem.$save($routeParams);
+            $scope.items.push(newItem);
 
             // clear textbox
-            $scope.newDbName = '';
+            $scope.newItemName = '';
         }
     }
 
-    $scope.removeDb = function (db) {
-        console.log(db);
-        if (confirm("Delete this database? There's no undo...")) {
-            db.$delete({name: db.name});
-            $scope.items.splice($scope.items.indexOf(db), 1);
+    $scope.removeItem = function (item) {
+
+        if (confirm("Delete this" + context + " There's no undo...")) {
+            var param = {name: item.name};
+            if($routeParams.database) param.datatabase = $routeParams.database;
+
+            item.$delete(param);
+            $scope.items.splice($scope.items.indexOf(item), 1);
         }
     }
 });
