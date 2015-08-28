@@ -6,8 +6,8 @@ ngMongo.config(function ($routeProvider) {
             templateUrl: "list-template.html",
             controller: "ListCtrl"
         })
-        .when('/:database',{
-            templateUrl:"list-template.html",
+        .when('/:database', {
+            templateUrl: "list-template.html",
             controller: "ListCtrl"
         })
 
@@ -25,11 +25,11 @@ ngMongo.directive("deleteButton", Gova.Bootstrap.DeleteButton);
 
 ngMongo.directive("addButton", Gova.Bootstrap.AddButton);
 
-ngMongo.controller("ListCtrl", function ($scope,$routeParams ,Mongo) {
+ngMongo.controller("ListCtrl", function ($scope, $routeParams, Mongo) {
 
     var context = "database";
 
-    if($routeParams.database) context = "collection";
+    if ($routeParams.database) context = "collection";
 
     $scope.items = Mongo[context].query($routeParams);
 
@@ -48,11 +48,11 @@ ngMongo.controller("ListCtrl", function ($scope,$routeParams ,Mongo) {
     }
 
     $scope.removeItem = function (item) {
-
-        if (confirm("Delete this" + context + " There's no undo...")) {
+        if (confirm("Delete this " + context + "? There's no undo...")) {
             var param = {name: item.name};
-            if($routeParams.database) param.datatabase = $routeParams.database;
+            if ($routeParams.database) param.database = $routeParams.database;
 
+            console.log(item);
             item.$delete(param);
             $scope.items.splice($scope.items.indexOf(item), 1);
         }
