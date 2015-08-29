@@ -40,8 +40,11 @@
 </div>
 
 <div class="container" ng-app="ngMongo">
+    <script type="text/ng-template" id="breadcrumb-template.html">
 
+    </script>
     <script type="text/ng-template" id="list-template.html">
+        <breadcrumbs></breadcrumbs>
         <div class="row">
             <div class="span9">
                 <table class="table table-striped">
@@ -60,6 +63,22 @@
             <div class="span3">
                 <input type="text" ng-model="newItemName"/>
                 <add-button text="Add" action="addItem()"></add-button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="document-template.html">
+        <breadcrumbs></breadcrumbs>
+        <div class="row">
+            <div class="span9" id="document-list">
+                <ul>
+                    <li class="document pull-left" ng-repeat="doc in documents">
+                        {{doc._id}}
+                    </li>
+                </ul>
+            </div>
+            <div class="span3">
+                <a href="#">Add Document</a>
             </div>
         </div>
     </script>
